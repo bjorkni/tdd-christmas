@@ -24,4 +24,10 @@ public class LightGrid {
                 .forEach(x -> IntStream.rangeClosed(y1, y2)
                         .forEach(y -> grid[x][y] = true));
     }
+
+    public void turnOff(int x1, int y1, int x2, int y2) {
+        IntStream.rangeClosed(x1, x2)
+                .forEach(x -> IntStream.rangeClosed(y1, y2)
+                        .forEach(y -> grid[x][y] = false));
+    }
 }

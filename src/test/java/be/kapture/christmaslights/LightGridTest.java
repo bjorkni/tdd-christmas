@@ -7,6 +7,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class LightGridTest {
 
+    private static final int MAX = 999;
+
     private LightGrid lightGrid;
 
     @Before
@@ -28,17 +30,25 @@ public class LightGridTest {
 
     @Test
     public void turnOnAll() {
-        lightGrid.turnOn(0, 0, 999, 999);
+        lightGrid.turnOn(0, 0, MAX, MAX);
 
         expectOn(1_000_000);
     }
 
     @Test
     public void turnOnTwoLines() {
-        lightGrid.turnOn(0, 0, 999, 0);
-        lightGrid.turnOn(0, 8, 999, 8);
+        lightGrid.turnOn(0, 0, MAX, 0);
+        lightGrid.turnOn(0, 8, MAX, 8);
 
         expectOn(2000);
+    }
+
+    @Test
+    public void turnOff() {
+        lightGrid.turnOn(0, 0, MAX, MAX);
+        lightGrid.turnOff(0, 0, MAX, MAX);
+
+        expectOn(0);
     }
 
     private void expectOn(int ex) {
