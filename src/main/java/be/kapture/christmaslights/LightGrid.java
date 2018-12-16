@@ -27,6 +27,10 @@ public class LightGrid {
         applyToRange(x1, y1, x2, y2, turnOff());
     }
 
+    public void toggle(int x1, int y1, int x2, int y2) {
+        applyToRange(x1, y1, x2, y2, toggle());
+    }
+
     private void applyToRange(int x1, int y1, int x2, int y2, GridFunction function) {
         IntStream.rangeClosed(x1, x2)
                 .forEach(x -> IntStream.rangeClosed(y1, y2)
@@ -39,5 +43,9 @@ public class LightGrid {
 
     private GridFunction turnOff() {
         return (x, y) -> grid[x][y] = false;
+    }
+
+    private GridFunction toggle() {
+        return (x, y) -> grid[x][y] = !grid[x][y];
     }
 }

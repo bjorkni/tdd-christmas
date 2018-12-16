@@ -30,9 +30,13 @@ public class LightGridTest {
 
     @Test
     public void turnOnAll() {
-        lightGrid.turnOn(0, 0, MAX, MAX);
+        setUpAllOn();
 
         expectOn(1_000_000);
+    }
+
+    private void setUpAllOn() {
+        lightGrid.turnOn(0, 0, MAX, MAX);
     }
 
     @Test
@@ -45,8 +49,23 @@ public class LightGridTest {
 
     @Test
     public void turnOff() {
-        lightGrid.turnOn(0, 0, MAX, MAX);
+        setUpAllOn();
         lightGrid.turnOff(0, 0, MAX, MAX);
+
+        expectOn(0);
+    }
+
+    @Test
+    public void toggle_offToOn() {
+        lightGrid.toggle(0, 0, MAX, MAX);
+
+        expectOn(1_000_000);
+    }
+
+    @Test
+    public void toggle_onToOff() {
+        setUpAllOn();
+        lightGrid.toggle(0, 0, MAX, MAX);
 
         expectOn(0);
     }
