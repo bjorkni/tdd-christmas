@@ -20,14 +20,24 @@ public class LightGrid {
     }
 
     public void turnOn(int x1, int y1, int x2, int y2) {
-        IntStream.rangeClosed(x1, x2)
-                .forEach(x -> IntStream.rangeClosed(y1, y2)
-                        .forEach(y -> grid[x][y] = true));
+        applyToRange(x1, y1, x2, y2, turnOn());
     }
 
     public void turnOff(int x1, int y1, int x2, int y2) {
+        applyToRange(x1, y1, x2, y2, turnOff());
+    }
+
+    private void applyToRange(int x1, int y1, int x2, int y2, GridFunction function) {
         IntStream.rangeClosed(x1, x2)
                 .forEach(x -> IntStream.rangeClosed(y1, y2)
-                        .forEach(y -> grid[x][y] = false));
+                        .forEach(y -> function.apply(x, y)));
+    }
+
+    private GridFunction turnOn() {
+        return (x, y) -> grid[x][y] = true;
+    }
+
+    private GridFunction turnOff() {
+        return (x, y) -> grid[x][y] = false;
     }
 }
