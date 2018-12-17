@@ -32,4 +32,13 @@ public class LightGridControllerTest {
 
         verify(lightGrid).turnOn(1, 2, 3, 4);
     }
+
+    @Test
+    public void turnOff() {
+        LightGridController controller = new LightGridController(lightGrid);
+
+        controller.feedInstruction("turn off 888,999 through 666,777");
+
+        verify(lightGrid).turnOff(888, 999, 666, 777);
+    }
 }
