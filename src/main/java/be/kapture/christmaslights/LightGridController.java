@@ -8,6 +8,7 @@ public class LightGridController {
 
     private static final String TURN_ON_PREFIX = "turn on";
     private static final String TURN_OFF_PREFIX = "turn off";
+    private static final String TOGGLE_PREFIX = "toggle";
 
     private final LightGrid lightGrid;
 
@@ -24,6 +25,8 @@ public class LightGridController {
             turnOn(extractPointPair(instruction, TURN_ON_PREFIX));
         } else if (instruction.startsWith(TURN_OFF_PREFIX)) {
             turnOff(extractPointPair(instruction, TURN_OFF_PREFIX));
+        } else if (instruction.startsWith(TOGGLE_PREFIX)) {
+            toggle(extractPointPair(instruction, TOGGLE_PREFIX));
         }
     }
 
@@ -46,6 +49,12 @@ public class LightGridController {
         Point p1 = pointPair.getKey();
         Point p2 = pointPair.getValue();
         lightGrid.turnOff(p1.x, p1.y, p2.x, p2.y);
+    }
+
+    private void toggle(Pair<Point, Point> pointPair) {
+        Point p1 = pointPair.getKey();
+        Point p2 = pointPair.getValue();
+        lightGrid.toggle(p1.x, p1.y, p2.x, p2.y);
     }
 
     private String extractSecondPair(String aThroughB) {

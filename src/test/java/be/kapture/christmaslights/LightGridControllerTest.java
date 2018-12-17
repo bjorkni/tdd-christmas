@@ -41,4 +41,13 @@ public class LightGridControllerTest {
 
         verify(lightGrid).turnOff(888, 999, 666, 777);
     }
+
+    @Test
+    public void toggle() {
+        LightGridController controller = new LightGridController(lightGrid);
+
+        controller.feedInstruction("toggle 12,2 through 16,6");
+
+        verify(lightGrid).toggle(12, 2, 16, 6);
+    }
 }
