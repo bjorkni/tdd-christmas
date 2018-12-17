@@ -6,8 +6,8 @@ public class LightGridController {
 
     private final LightGrid lightGrid;
 
-    public LightGridController() {
-        lightGrid = new LightGrid();
+    public LightGridController(LightGrid lightGrid) {
+        this.lightGrid = lightGrid;
     }
 
     public long getNumberOfLightsOn() {

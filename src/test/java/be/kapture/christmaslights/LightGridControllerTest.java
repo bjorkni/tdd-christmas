@@ -1,23 +1,35 @@
 package be.kapture.christmaslights;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class LightGridControllerTest {
 
-    @Test
-    public void initial_allOff() {
-        LightGridController controller = new LightGridController();
+    @Mock
+    private LightGrid lightGrid;
 
-        assertThat(controller.getNumberOfLightsOn()).isEqualTo(0);
+    @Test
+    public void getNumberOfLightsOn() {
+        when(lightGrid.getNumberOfLightsOn()).thenReturn(555L);
+        LightGridController controller = new LightGridController(lightGrid);
+
+        long numberOfLightsOn = controller.getNumberOfLightsOn();
+
+        assertThat(numberOfLightsOn).isEqualTo(555L);
     }
 
     @Test
     public void turnOn() {
-        LightGridController controller = new LightGridController();
-        controller.feedInstruction("turn on 1,1 through 3,2");
+        LightGridController controller = new LightGridController(lightGrid);
 
-        assertThat(controller.getNumberOfLightsOn()).isEqualTo(6);
+        controller.feedInstruction("turn on 1,2 through 3,4");
+
+        verify(lightGrid).turnOn(1, 2, 3, 4);
     }
 }
