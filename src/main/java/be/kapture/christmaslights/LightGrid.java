@@ -6,29 +6,27 @@ public class LightGrid {
 
     private static final int GRID_SIZE = 1000;
 
-    private boolean[][] grid = new boolean[GRID_SIZE][GRID_SIZE];
+    private int[][] grid = new int[GRID_SIZE][GRID_SIZE];
 
     public long getNumberOfLightsOn() {
         return IntStream.range(0, GRID_SIZE)
                 .mapToLong(x ->
                         IntStream.range(0, GRID_SIZE)
-                                .mapToObj(y -> grid[x][y])
-                                .filter(Boolean::booleanValue)
-                                .count())
+                                .map(y -> grid[x][y])
+                                .sum())
                 .sum();
-
     }
 
-    public void turnOn(int x1, int y1, int x2, int y2) {
-        applyToRange(x1, y1, x2, y2, turnOn());
+    public void increase(int x1, int y1, int x2, int y2) {
+        applyToRange(x1, y1, x2, y2, increase());
     }
 
-    public void turnOff(int x1, int y1, int x2, int y2) {
-        applyToRange(x1, y1, x2, y2, turnOff());
+    public void decrease(int x1, int y1, int x2, int y2) {
+        applyToRange(x1, y1, x2, y2, decrease());
     }
 
-    public void toggle(int x1, int y1, int x2, int y2) {
-        applyToRange(x1, y1, x2, y2, toggle());
+    public void doubleIncrease(int x1, int y1, int x2, int y2) {
+        applyToRange(x1, y1, x2, y2, doubleIncrease());
     }
 
     private void applyToRange(int x1, int y1, int x2, int y2, GridFunction function) {
@@ -37,15 +35,15 @@ public class LightGrid {
                         .forEach(y -> function.apply(x, y)));
     }
 
-    private GridFunction turnOn() {
-        return (x, y) -> grid[x][y] = true;
+    private GridFunction increase() {
+        return (x, y) -> grid[x][y]++;
     }
 
-    private GridFunction turnOff() {
-        return (x, y) -> grid[x][y] = false;
+    private GridFunction decrease() {
+        return (x, y) -> grid[x][y] = Math.max(0, grid[x][y] - 1);
     }
 
-    private GridFunction toggle() {
-        return (x, y) -> grid[x][y] = !grid[x][y];
+    private GridFunction doubleIncrease() {
+        return (x, y) -> grid[x][y] = grid[x][y] + 2;
     }
 }

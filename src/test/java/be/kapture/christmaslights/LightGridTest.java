@@ -18,59 +18,74 @@ public class LightGridTest {
 
     @Test
     public void initialState_allOff() {
-        expectOn(0);
+        expectTotalBrightness(0);
     }
 
     @Test
-    public void turnOnOne() {
-        lightGrid.turnOn(0, 0, 0, 0);
+    public void increaseOne() {
+        lightGrid.increase(0, 0, 0, 0);
 
-        expectOn(1);
+        expectTotalBrightness(1);
     }
 
     @Test
-    public void turnOnAll() {
+    public void increaseOneTwice() {
+        lightGrid.increase(0, 0, 0, 0);
+        lightGrid.increase(0, 0, 0, 0);
+
+        expectTotalBrightness(2);
+    }
+
+    @Test
+    public void increaseAll() {
         setUpAllOn();
 
-        expectOn(1_000_000);
+        expectTotalBrightness(1_000_000);
     }
 
     private void setUpAllOn() {
-        lightGrid.turnOn(0, 0, MAX, MAX);
+        lightGrid.increase(0, 0, MAX, MAX);
     }
 
     @Test
-    public void turnOnTwoLines() {
-        lightGrid.turnOn(0, 0, MAX, 0);
-        lightGrid.turnOn(0, 8, MAX, 8);
+    public void increaseTwoLines() {
+        lightGrid.increase(0, 0, MAX, 0);
+        lightGrid.increase(0, 8, MAX, 8);
 
-        expectOn(2000);
+        expectTotalBrightness(2000);
     }
 
     @Test
-    public void turnOff() {
+    public void decrease() {
         setUpAllOn();
-        lightGrid.turnOff(0, 0, MAX, MAX);
+        lightGrid.decrease(0, 0, MAX, MAX);
 
-        expectOn(0);
+        expectTotalBrightness(0);
     }
 
     @Test
-    public void toggle_offToOn() {
-        lightGrid.toggle(0, 0, MAX, MAX);
+    public void decrease_noEffectWhenZero() {
+        lightGrid.decrease(0, 0, MAX, MAX);
 
-        expectOn(1_000_000);
+        expectTotalBrightness(0);
     }
 
     @Test
-    public void toggle_onToOff() {
+    public void doubleIncrease_zeroToTwo() {
+        lightGrid.doubleIncrease(0, 0, MAX, MAX);
+
+        expectTotalBrightness(2_000_000);
+    }
+
+    @Test
+    public void doubleIncrease_oneToThree() {
         setUpAllOn();
-        lightGrid.toggle(0, 0, MAX, MAX);
+        lightGrid.doubleIncrease(0, 0, MAX, MAX);
 
-        expectOn(0);
+        expectTotalBrightness(3_000_000);
     }
 
-    private void expectOn(int ex) {
+    private void expectTotalBrightness(int ex) {
         assertThat(lightGrid.getNumberOfLightsOn()).isEqualTo(ex);
     }
 

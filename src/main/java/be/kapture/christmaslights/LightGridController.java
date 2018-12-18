@@ -42,19 +42,19 @@ public class LightGridController {
     private void turnOn(Pair<Point, Point> pointPair) {
         Point p1 = pointPair.getKey();
         Point p2 = pointPair.getValue();
-        lightGrid.turnOn(p1.x, p1.y, p2.x, p2.y);
+        lightGrid.increase(p1.x, p1.y, p2.x, p2.y);
     }
 
     private void turnOff(Pair<Point, Point> pointPair) {
         Point p1 = pointPair.getKey();
         Point p2 = pointPair.getValue();
-        lightGrid.turnOff(p1.x, p1.y, p2.x, p2.y);
+        lightGrid.decrease(p1.x, p1.y, p2.x, p2.y);
     }
 
     private void toggle(Pair<Point, Point> pointPair) {
         Point p1 = pointPair.getKey();
         Point p2 = pointPair.getValue();
-        lightGrid.toggle(p1.x, p1.y, p2.x, p2.y);
+        lightGrid.doubleIncrease(p1.x, p1.y, p2.x, p2.y);
     }
 
     private String extractSecondPair(String aThroughB) {
