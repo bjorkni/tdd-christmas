@@ -1,5 +1,6 @@
 package be.kapture.christmaslights;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -13,11 +14,16 @@ public class LightGridControllerTest {
 
     @Mock
     private LightGrid lightGrid;
+    private LightGridController controller;
+
+    @Before
+    public void setUp() {
+        controller = new LightGridController(lightGrid);
+    }
 
     @Test
     public void getNumberOfLightsOn() {
         when(lightGrid.getNumberOfLightsOn()).thenReturn(555L);
-        LightGridController controller = new LightGridController(lightGrid);
 
         long numberOfLightsOn = controller.getNumberOfLightsOn();
 
@@ -26,28 +32,22 @@ public class LightGridControllerTest {
 
     @Test
     public void turnOn() {
-        LightGridController controller = new LightGridController(lightGrid);
-
         controller.feedInstruction("turn on 1,2 through 3,4");
 
-        verify(lightGrid).turnOn(1, 2, 3, 4);
+        verify(lightGrid).increase(1, 2, 3, 4);
     }
 
     @Test
     public void turnOff() {
-        LightGridController controller = new LightGridController(lightGrid);
-
         controller.feedInstruction("turn off 888,999 through 666,777");
 
-        verify(lightGrid).turnOff(888, 999, 666, 777);
+        verify(lightGrid).decrease(888, 999, 666, 777);
     }
 
     @Test
     public void toggle() {
-        LightGridController controller = new LightGridController(lightGrid);
-
         controller.feedInstruction("toggle 12,2 through 16,6");
 
-        verify(lightGrid).toggle(12, 2, 16, 6);
+        verify(lightGrid).doubleIncrease(12, 2, 16, 6);
     }
 }

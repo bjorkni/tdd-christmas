@@ -1,5 +1,6 @@
 package be.kapture.christmaslights;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class LightGrid {
@@ -11,8 +12,7 @@ public class LightGrid {
     public long getNumberOfLightsOn() {
         return IntStream.range(0, GRID_SIZE)
                 .mapToLong(x ->
-                        IntStream.range(0, GRID_SIZE)
-                                .map(y -> grid[x][y])
+                        Arrays.stream(grid[x], 0, GRID_SIZE)
                                 .sum())
                 .sum();
     }
