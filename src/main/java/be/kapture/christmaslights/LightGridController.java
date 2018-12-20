@@ -6,10 +6,6 @@ import java.awt.*;
 
 public class LightGridController {
 
-    private static final String TURN_ON_PREFIX = "turn on";
-    private static final String TURN_OFF_PREFIX = "turn off";
-    private static final String TOGGLE_PREFIX = "toggle";
-
     private final LightGrid lightGrid;
 
     public LightGridController(LightGrid lightGrid) {
@@ -21,12 +17,11 @@ public class LightGridController {
     }
 
     public void feedInstruction(String instruction) {
-        if (instruction.startsWith(TURN_ON_PREFIX)) {
-            turnOn(extractPointPair(instruction, TURN_ON_PREFIX));
-        } else if (instruction.startsWith(TURN_OFF_PREFIX)) {
-            turnOff(extractPointPair(instruction, TURN_OFF_PREFIX));
-        } else if (instruction.startsWith(TOGGLE_PREFIX)) {
-            toggle(extractPointPair(instruction, TOGGLE_PREFIX));
+        for (InstructionType instructionType : InstructionType.values()) {
+            if (instruction.startsWith(instructionType.getPrefix())) {
+                Pair<Point, Point> pointPair = extractPointPair(instruction, instructionType.getPrefix());
+                instructionType.getControllerFunction().apply(pointPair, lightGrid);
+            }
         }
     }
 
@@ -37,24 +32,6 @@ public class LightGridController {
         Point p2 = convertToPoint(extractSecondPair(aThroughB));
 
         return new Pair<>(p1, p2);
-    }
-
-    private void turnOn(Pair<Point, Point> pointPair) {
-        Point p1 = pointPair.getKey();
-        Point p2 = pointPair.getValue();
-        lightGrid.increase(p1.x, p1.y, p2.x, p2.y);
-    }
-
-    private void turnOff(Pair<Point, Point> pointPair) {
-        Point p1 = pointPair.getKey();
-        Point p2 = pointPair.getValue();
-        lightGrid.decrease(p1.x, p1.y, p2.x, p2.y);
-    }
-
-    private void toggle(Pair<Point, Point> pointPair) {
-        Point p1 = pointPair.getKey();
-        Point p2 = pointPair.getValue();
-        lightGrid.doubleIncrease(p1.x, p1.y, p2.x, p2.y);
     }
 
     private String extractSecondPair(String aThroughB) {
